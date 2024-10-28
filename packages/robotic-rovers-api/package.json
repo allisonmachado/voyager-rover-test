@@ -30,6 +30,7 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.1.0",
     "@hapi/hapi": "^21.3.12",
     "bunyan": "^1.8.15",
     "convict": "^6.2.4",

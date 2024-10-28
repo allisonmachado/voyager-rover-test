@@ -6,6 +6,7 @@ import { logger } from './util/logger';
 import { config } from './config';
 import health from './handlers/health';
 import { mainDataSource } from './data-source';
+import { listAll } from './services/plateau';
 
 export const makeServer = async () => {
   const serverConfig = config.get('server');
@@ -36,6 +37,11 @@ const init = async () => {
     message: 'Server running',
     uri: server.info.uri,
   });
+
+  console.log('>>>>>>');
+  const result = await listAll();
+
+  console.log(result);
 };
 
 process.on('unhandledRejection', (error) => {

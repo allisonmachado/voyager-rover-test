@@ -17,9 +17,6 @@ export class RoboticRover {
   id: number;
 
   @Column()
-  name: string;
-
-  @Column()
   xInitialPosition: number;
 
   @Column()
@@ -32,7 +29,7 @@ export class RoboticRover {
   yCurrentPosition: number;
 
   @Column()
-  orientation: string;
+  orientation: 'N' | 'E' | 'S' | 'W';
 
   @ManyToOne(() => Plateau, (plateau) => plateau.roboticRovers)
   @JoinColumn()
