@@ -1,8 +1,11 @@
+import 'reflect-metadata';
+
 import * as Hapi from '@hapi/hapi';
 import { logger } from './util/logger';
 
 import { config } from './config';
 import health from './handlers/health';
+import { mainDataSource } from './data-source';
 
 export const makeServer = async () => {
   const serverConfig = config.get('server');
@@ -14,6 +17,7 @@ export const makeServer = async () => {
 };
 
 const init = async () => {
+  await mainDataSource.initialize();
   const server = await makeServer();
 
   await server.start();

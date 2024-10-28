@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "es2021", // typeorm requirement
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "include": ["src/**/*", "test/**/*"]
 }

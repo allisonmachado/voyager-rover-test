@@ -32,6 +32,9 @@
   "dependencies": {
     "@hapi/hapi": "^21.3.12",
     "bunyan": "^1.8.15",
-    "convict": "^6.2.4"
+    "convict": "^6.2.4",
+    "mysql2": "^3.11.3",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.20"
   }
 }
