@@ -1,8 +1,14 @@
 import 'reflect-metadata';
 
 import * as Hapi from '@hapi/hapi';
+import Inert from '@hapi/inert';
+import Vision from '@hapi/vision';
+import HapiSwagger from 'hapi-swagger';
 
 import health from './handlers/health';
+import plateau from './handlers/plateau';
+import roboticRover from './handlers/robotic-rover';
+
 import { logger } from './util/logger';
 import { config } from './config';
 import { mainDataSource } from './data-source';
@@ -17,10 +23,29 @@ process.on('unhandledRejection', (error) => {
 const init = async () => {
   await mainDataSource.initialize();
 
+  const application = config.get('application');
+  const environment = config.get('env');
   const serverConfig = config.get('server');
   const server = Hapi.server(serverConfig);
 
+  const swaggerOptions = {
+    info: {
+      title: `${application.name}:${environment}`,
+      version: process.env.npm_package_version,
+    },
+  };
+
   await server.register(health);
+  await server.register(plateau);
+  await server.register(roboticRover);
+  await server.register([
+    Inert,
+    Vision,
+    {
+      plugin: HapiSwagger,
+      options: swaggerOptions,
+    },
+  ]);
   await server.start();
 
   server.events.on('response', (request) => {
