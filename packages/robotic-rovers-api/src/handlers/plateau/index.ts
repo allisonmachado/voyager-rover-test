@@ -1,5 +1,5 @@
 import { Server } from '@hapi/hapi';
-import { getPlateaus, createPlateau, removePlateau, deployRover, getRoboticRovers } from './routes';
+import { getPlateaus, createPlateau, removePlateau, deployRover, getRoboticRovers, getPlateau } from './routes';
 
 const register = (server: Server): void => {
   server.route([
@@ -7,6 +7,11 @@ const register = (server: Server): void => {
       method: 'GET',
       path: '/plateaus',
       options: getPlateaus,
+    },
+    {
+      method: 'GET',
+      path: '/plateaus/{plateauId}',
+      options: getPlateau,
     },
     {
       method: 'POST',

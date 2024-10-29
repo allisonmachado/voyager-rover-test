@@ -53,3 +53,7 @@ export const remove = async (plateauId: number) => {
 export const listAll = async () => {
   return mainDataSource.getRepository(Plateau).find();
 };
+
+export const find = async (plateauId: number) => {
+  return mainDataSource.getRepository(Plateau).findOneBy({ id: plateauId });
+};

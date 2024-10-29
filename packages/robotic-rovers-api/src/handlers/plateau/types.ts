@@ -26,4 +26,5 @@ export interface DeployRoverRequest extends Request {
   };
 }
 
+export type GetPlateauRequest = RemovePlateauRequest;
 export type GetRoversRequest = RemovePlateauRequest;

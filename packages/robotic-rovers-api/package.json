@@ -14,7 +14,7 @@
     "lint:fix": "npx eslint --fix src/**/*.ts && npx eslint --fix test/**/*.ts",
     "prebuild": "npm run clean:dist",
     "build": "tsc",
-    "start": "node dist/index",
+    "start": "node dist/src/index",
     "start:dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "pretest": "npm run build",
     "test": "mocha dist/test/**/*.js"

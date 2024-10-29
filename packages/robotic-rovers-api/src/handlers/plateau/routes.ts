@@ -3,7 +3,13 @@ import * as plateauService from '../../services/plateau';
 import * as roboticRoverService from '../../services/robotic-rover';
 import Joi from 'joi';
 
-import { CreatePlateauRequest, DeployRoverRequest, GetRoversRequest, RemovePlateauRequest } from './types';
+import {
+  CreatePlateauRequest,
+  DeployRoverRequest,
+  GetPlateauRequest,
+  GetRoversRequest,
+  RemovePlateauRequest,
+} from './types';
 
 /**
  * @listens POST /plateaus
@@ -38,6 +44,33 @@ export const getPlateaus: RouteOptions = {
     const plateauList = await plateauService.listAll();
 
     return h.response(plateauList).code(200);
+  },
+};
+
+/**
+ * @listens GET /plateaus/{plateauId}
+ */
+export const getPlateau: RouteOptions = {
+  description: 'Returns plateau by id',
+  tags: ['api'],
+  validate: {
+    params: Joi.object({
+      plateauId: Joi.number().required().min(1).integer(),
+    }),
+    failAction: (_request, _h, error) => {
+      throw error;
+    },
+  },
+  handler: async (request: GetPlateauRequest, h: ResponseToolkit) => {
+    const { plateauId } = request.params;
+
+    const plateau = await plateauService.find(plateauId);
+
+    if (!plateau) {
+      return h.response().code(404);
+    }
+
+    return h.response(plateau).code(200);
   },
 };
 

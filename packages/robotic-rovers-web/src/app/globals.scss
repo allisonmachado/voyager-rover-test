@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+// override Bulma variables
+
+@import "../../node_modules/bulma/bulma.sass";
+
+.navbar-item {
+  img {
+    max-height: none;
+  }
+}
+
+.navbar-burger {
+  height: auto;
+  width: 6.25rem;
+}
+
+.container {
+  min-height: calc(100vh - 100px);
+}
