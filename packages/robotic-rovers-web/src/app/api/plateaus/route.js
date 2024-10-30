@@ -1,5 +1,4 @@
 import { createPlateau } from "@/data/plateau";
-import { redirect } from "next/navigation";
 
 /**
  * Create Plateau Proxy

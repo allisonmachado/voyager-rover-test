@@ -19,18 +19,22 @@ export const createPlateau: RouteOptions = {
   tags: ['api'],
   validate: {
     payload: Joi.object({
-      width: Joi.number().required().min(1).max(20),
-      height: Joi.number().required().min(1).max(10),
+      width: Joi.number().required().min(5).max(20),
+      height: Joi.number().required().min(2).max(10),
     }),
     failAction: (_request, _h, error) => {
       throw error;
     },
   },
   handler: async (request: CreatePlateauRequest, h: ResponseToolkit) => {
-    const { width, height } = request.payload;
-    const result = await plateauService.create(width, height);
+    try {
+      const { width, height } = request.payload;
+      const result = await plateauService.create(width, height);
 
-    return h.response(result).code(200);
+      return h.response(result).code(200);
+    } catch (error) {
+      return h.response({ message: error.message }).code(400);
+    }
   },
 };
 
@@ -106,8 +110,8 @@ export const deployRover: RouteOptions = {
   validate: {
     payload: Joi.object({
       initialPosition: Joi.object({
-        x: Joi.number().required().min(1).max(20),
-        y: Joi.number().required().min(1).max(10),
+        x: Joi.number().required().min(0).max(19),
+        y: Joi.number().required().min(0).max(19),
       }),
       orientation: Joi.string().required().valid('N', 'E', 'S', 'W'),
     }),

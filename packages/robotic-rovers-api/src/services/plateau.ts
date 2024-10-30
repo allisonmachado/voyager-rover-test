@@ -3,16 +3,26 @@ import { Plateau } from '../entities/Plateau';
 import { mainDataSource } from '../data-source';
 import { RoboticRover } from '../entities/RoboticRover';
 
-function generateName() {
+const generateName = () => {
   const planetPrefix = faker.science.chemicalElement().symbol;
   const adjective = faker.word.adjective();
   const geographicalFeature = faker.location.cardinalDirection();
 
   return `${planetPrefix}-${adjective.charAt(0).toUpperCase() + adjective.slice(1)} ${geographicalFeature} Plateau`;
-}
+};
+
+const assertMinPlateauAspectRatio = (xWidth: number, yHeight: number) => {
+  const ratio = Math.floor(xWidth / yHeight);
+
+  if (ratio < 2) {
+    throw new Error('Plateau aspect ratio must be at least 2:1 (width:height)');
+  }
+};
 
 export const create = async (xWidth: number, yHeight: number): Promise<Plateau> => {
   const plateauRepository = mainDataSource.getRepository(Plateau);
+
+  assertMinPlateauAspectRatio(xWidth, yHeight);
 
   const newPlateau = plateauRepository.create({
     name: generateName(),

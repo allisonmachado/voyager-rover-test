@@ -22,8 +22,8 @@ export const create = async (args: {
     });
 
     if (
-      parentPlateau.xWidth < args.initialPosition.x ||
-      parentPlateau.yHeight < args.initialPosition.y ||
+      parentPlateau.xWidth <= args.initialPosition.x ||
+      parentPlateau.yHeight <= args.initialPosition.y ||
       args.initialPosition.x < 0 ||
       args.initialPosition.y < 0
     ) {
@@ -166,8 +166,8 @@ export const move = async (args: {
           if (
             currentPosition.x < 0 ||
             currentPosition.y < 0 ||
-            currentPosition.x > targetRover.plateau.xWidth ||
-            currentPosition.y > targetRover.plateau.yHeight
+            currentPosition.x >= targetRover.plateau.xWidth ||
+            currentPosition.y >= targetRover.plateau.yHeight
           ) {
             logger.debug({
               action: 'move',
