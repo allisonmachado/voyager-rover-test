@@ -9,5 +9,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Allison Machado Gonçalves",
-  "workspaces": []
+  "workspaces": [
+    "packages/robotic-rovers-api",
+    "packages/robotic-rovers-web"
+  ]
 }

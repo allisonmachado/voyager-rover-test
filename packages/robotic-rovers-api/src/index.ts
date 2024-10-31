@@ -11,7 +11,7 @@ import roboticRover from './handlers/robotic-rover';
 
 import { logger } from './util/logger';
 import { config } from './config';
-import { mainDataSource } from './data-source';
+import { initializeDatabase } from './data-source';
 
 process.on('unhandledRejection', (error) => {
   logger.error({
@@ -20,8 +20,8 @@ process.on('unhandledRejection', (error) => {
   });
 });
 
-const init = async () => {
-  await mainDataSource.initialize();
+const startApplication = async () => {
+  await initializeDatabase();
 
   const application = config.get('application');
   const environment = config.get('env');
@@ -59,13 +59,10 @@ const init = async () => {
 
   logger.debug({
     action: 'init',
-    message: 'Server running',
+    message: 'API service running',
     uri: server.info.uri,
-  });
-
-  logger.debug({
     config: config.toString(),
   });
 };
 
-void init();
+void startApplication();

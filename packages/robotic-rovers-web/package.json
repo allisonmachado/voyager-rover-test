@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "clean:next": "rm -rf ./.next",
+    "clean:modules": "rm -rf ./node_modules",
+    "clean": "npm run clean:next && npm run clean:modules",
     "start:dev": "next dev",
     "build": "next build",
     "start": "next start",

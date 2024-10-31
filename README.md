@@ -4,4 +4,14 @@
 
 ... TODO: add instructions
 
-Note: If you need to install new dependencies or perform changes outside the `packages/**/src/**` (e.g.: install a new dependency) you'll need to run `docker compose up --build --force-recreate`. Only changes within the referred folders are "synced" with the running containers.
+Note: If you need to install new dependencies or perform changes outside the `packages/**/src/**` (e.g.: change environment variables), you'll need to rebuild the images
+
+```sh
+docker compose down --rmi all
+```
+
+And then restart the services:
+
+```sh
+docker-compose up
+```

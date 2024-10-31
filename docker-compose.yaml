@@ -1,0 +1,40 @@
+# This file is used to define the services that will be run locally
+
+name: voyager-rover-test
+services:
+  robotic-rovers-database:
+    image: mysql:8.0.34
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: robotic-rovers
+    restart: unless-stopped
+  robotic-rovers-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.local.robotic-rovers-api
+    ports:
+      - "3001:3001"
+    env_file:
+      - path: ./packages/robotic-rovers-api/.env
+        required: false
+    volumes:
+      - ./packages/robotic-rovers-api/src:/voyager/packages/robotic-rovers-api/src
+    restart: unless-stopped
+    depends_on:
+      - robotic-rovers-database
+  robotic-rovers-web:
+    build:
+      context: .
+      dockerfile: Dockerfile.local.robotic-rovers-web
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./packages/robotic-rovers-web/.env
+    volumes:
+      - ./packages/robotic-rovers-web/src:/voyager/packages/robotic-rovers-web/src
+    restart: unless-stopped
+    depends_on:
+      - robotic-rovers-database
+      - robotic-rovers-api

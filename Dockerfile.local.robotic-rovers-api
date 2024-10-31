@@ -1,0 +1,19 @@
+# This Dockerfile is used to build the robotic-rovers-api image locally
+#
+# This is not meant to be used in production, it is only for local development purposess
+#
+# Testing this build:
+#
+# docker build --no-cache -f ./Dockerfile.local.robotic-rovers-api -t test-robotic-rovers-api-image . &> build-test-robotic-rovers-api-image.log
+# docker run --rm -p 3000:3000 test-robotic-rovers-api-image
+
+FROM node:20.15-alpine
+
+WORKDIR /voyager/packages/robotic-rovers-api
+
+COPY ./packages/robotic-rovers-api/ /voyager/packages/robotic-rovers-api/
+
+RUN npm run clean
+RUN npm install
+
+CMD ["npm", "run", "start:dev"]

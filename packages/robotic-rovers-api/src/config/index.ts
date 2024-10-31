@@ -49,7 +49,7 @@ export const config = convict({
         doc: 'database hostname',
         format: String,
         env: 'MOBIETRAIN_API_DB_HOST',
-        default: '127.0.0.1',
+        default: 'robotic-rovers-database',
       },
       port: {
         doc: 'database connection port',
