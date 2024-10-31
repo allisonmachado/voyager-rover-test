@@ -14,10 +14,7 @@ import { config } from './config';
 import { initializeDatabase } from './data-source';
 
 process.on('unhandledRejection', (error) => {
-  logger.error({
-    action: 'unhandledRejection',
-    error,
-  });
+  logger.error({ action: 'unhandledRejection', error });
 });
 
 const startApplication = async () => {
@@ -50,7 +47,7 @@ const startApplication = async () => {
 
   server.events.on('response', (request) => {
     logger.debug({
-      action: 'response',
+      action: 'serverOnResponse',
       method: request.method.toUpperCase(),
       path: request.path,
       response: 'statusCode' in request.response ? request.response.statusCode : null,
@@ -58,7 +55,7 @@ const startApplication = async () => {
   });
 
   logger.debug({
-    action: 'init',
+    action: 'startApplication',
     message: 'API service running',
     uri: server.info.uri,
     config: config.toString(),

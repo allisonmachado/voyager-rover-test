@@ -20,15 +20,19 @@
     "test": "mocha dist/test/**/*.js"
   },
   "devDependencies": {
+    "@eslint/js": "^9.13.0",
     "@types/bunyan": "^1.8.11",
     "@types/bunyan-prettystream": "^0.1.35",
     "@types/convict": "^6.1.6",
     "@types/joi": "^17.2.3",
     "@types/mocha": "^10.0.9",
     "@types/node": "^22.8.1",
+    "eslint": "^9.13.0",
+    "globals": "^15.11.0",
     "mocha": "^10.7.3",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.12.2"
   },
   "dependencies": {
     "@faker-js/faker": "^9.1.0",

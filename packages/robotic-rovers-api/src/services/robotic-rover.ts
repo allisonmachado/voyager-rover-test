@@ -97,7 +97,7 @@ export const move = async (args: {
       },
     });
 
-    let currentPosition = {
+    const currentPosition = {
       x: targetRover.xCurrentPosition,
       y: targetRover.yCurrentPosition,
     };
@@ -107,7 +107,7 @@ export const move = async (args: {
 
     for (const instruction of args.instructions) {
       switch (instruction) {
-        case 'L':
+        case 'L': {
           orientation = rotate(orientation, 'L');
           targetRover.orientation = orientation;
           await entityManager.withRepository(roverRepository).save(targetRover);
@@ -127,7 +127,8 @@ export const move = async (args: {
             orientation,
           });
           break;
-        case 'R':
+        }
+        case 'R': {
           orientation = rotate(orientation, 'R');
           targetRover.orientation = orientation;
           await entityManager.withRepository(roverRepository).save(targetRover);
@@ -147,7 +148,8 @@ export const move = async (args: {
             orientation,
           });
           break;
-        case 'M':
+        }
+        case 'M': {
           switch (orientation) {
             case 'N':
               currentPosition.y += 1;
@@ -224,6 +226,7 @@ export const move = async (args: {
             orientation,
           });
           break;
+        }
       }
     }
 

@@ -28,26 +28,21 @@ export async function initializeDatabase() {
     if (!mainDataSource.isInitialized) {
       await mainDataSource.initialize();
 
-      logger.debug({
-        action: 'initializeDatabase',
-        message: 'Database successfully initialized',
-      });
+      logger.debug({ action: 'initializeDatabase', message: 'Database successfully initialized' });
     }
   } catch (error) {
     retryCount++;
 
     if (retryCount >= MAX_RETRIES) {
-      logger.error({
-        action: 'initializeDatabase',
-        message: `Failed after ${MAX_RETRIES} retries.`,
-      });
+      logger.error({ action: 'initializeDatabase', message: `Failed after ${MAX_RETRIES} retries.` });
       throw error;
     }
 
     const exponentialBackoff = 2 ** retryCount;
 
     logger.debug({
-      action: `initializeDatabase: retrying in ${exponentialBackoff} seconds`,
+      action: 'initializeDatabase',
+      message: `Failed to initialize database. Retrying in ${exponentialBackoff} seconds.`,
       error,
     });
 
