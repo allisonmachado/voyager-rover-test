@@ -1,7 +1,10 @@
 {
-  "name": "next-bulma-template",
-  "version": "0.1.0",
-  "private": true,
+  "name": "robotic-rovers-web",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=20",
+    "npm": ">=10"
+  },
   "scripts": {
     "clean:next": "rm -rf ./.next",
     "clean:modules": "rm -rf ./node_modules",
