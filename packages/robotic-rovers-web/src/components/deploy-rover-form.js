@@ -32,6 +32,7 @@ export default function DeployRoverForm({ plateauId }) {
   return (
     <BaseForm {...visualProps}>
       <form onSubmit={handleSubmit} className="box">
+        <h2 className="title is-4">Deploy New Robotic Rover</h2>
         <div className="field">
           <label className="label">X Coordinate</label>
           <div className="control">
@@ -79,7 +80,7 @@ export default function DeployRoverForm({ plateauId }) {
           </div>
         </div>
 
-        <div className="field is-grouped">
+        <div className="field is-grouped buttons-section">
           <div className="control">
             <button type="submit" className="button is-primary">
               Deploy New Rover

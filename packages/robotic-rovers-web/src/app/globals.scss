@@ -1,13 +1,8 @@
-@charset "utf-8";
-
-// override Bulma variables
-
+// file: src/app/globals.scss
 @import "../../node_modules/bulma/bulma.sass";
 
-.navbar-item {
-  img {
-    max-height: none;
-  }
+.navbar-item img {
+  max-height: none;
 }
 
 .navbar-burger {
@@ -17,4 +12,53 @@
 
 .container {
   min-height: calc(100vh - 100px);
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding: 2rem;
+}
+
+.button.is-primary {
+  background-color: #3273dc;
+  color: #fff;
+}
+
+.hero-body {
+  padding: 3rem 1.5rem;
+}
+
+.notification.is-danger {
+  background-color: #ffdddd;
+  color: #cc0000;
+  border: 1px solid #cc0000;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.loading-message {
+  font-style: italic;
+  color: #888;
+  text-align: center;
+}
+
+.legend-section, .grid-section, .form-section {
+  margin-bottom: 1.5rem;
+}
+
+.field .label {
+  margin-bottom: 0.5rem;
+}
+
+.buttons-section .button {
+  margin-right: 0.5rem;
+}
+
+.button.is-danger {
+  background-color: #ff3860;
+  color: #fff;
+}
+
+.legend-section .legend {
+  text-align: center;
+  font-size: 1rem;
 }

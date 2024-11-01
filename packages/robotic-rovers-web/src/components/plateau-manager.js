@@ -9,23 +9,34 @@ export default function PlateauAndRoversManagers({ plateau, rovers }) {
 
   return (
     <div className="container">
-      <h1 className="title has-text-centered">
-        {plateau.name} ({plateau.xWidth} x {plateau.yHeight})
-      </h1>
+      <section>
+        <h1 className="title has-text-centered">
+          {plateau.name} ({plateau.xWidth} x {plateau.yHeight})
+        </h1>
+      </section>
 
-      <div className="legend">
-        <strong>Legend:</strong>
-        <div>N: ↑, E: →, S: ↓, W: ←</div>
-      </div>
+      <section className="has-text-centered legend-section">
+        <div className="legend">
+          <strong>Legend:</strong>
+          <div>N: ↑, E: →, S: ↓, W: ←</div>
+        </div>
+      </section>
 
-      <PlateauGrid
-        plateau={plateau}
-        rovers={rovers}
-        setSelectedRoverId={setSelectedRoverId}
-      />
+      <section className="grid-section">
+        <PlateauGrid
+          plateau={plateau}
+          rovers={rovers}
+          setSelectedRoverId={setSelectedRoverId}
+        />
+      </section>
 
-      <RoboticRoverForm roverId={selectedRoverId} />
-      <DeployRoverForm plateauId={plateau.id} />
+      <section className="form-section">
+        <RoboticRoverForm roverId={selectedRoverId} />
+      </section>
+
+      <section className="form-section">
+        <DeployRoverForm plateauId={plateau.id} />
+      </section>
     </div>
   );
 }

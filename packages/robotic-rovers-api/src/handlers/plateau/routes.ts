@@ -110,8 +110,8 @@ export const deployRover: RouteOptions = {
   validate: {
     payload: Joi.object({
       initialPosition: Joi.object({
-        x: Joi.number().required().min(0).max(19),
-        y: Joi.number().required().min(0).max(19),
+        x: Joi.number().required().min(0),
+        y: Joi.number().required().min(0),
       }),
       orientation: Joi.string().required().valid('N', 'E', 'S', 'W'),
     }),

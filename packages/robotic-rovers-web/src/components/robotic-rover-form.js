@@ -58,6 +58,7 @@ export default function RoboticRoverForm({ roverId }) {
   return (
     <BaseForm {...visualProps}>
       <form onSubmit={handleSubmit} className="box">
+        <h2 className="title is-4">Send Instructions to Rover</h2>
         <div className="field">
           <label className="label">Selected Rover:</label>
           <div className="control">
@@ -88,23 +89,23 @@ export default function RoboticRoverForm({ roverId }) {
           </div>
         </div>
 
-        <div className="field is-grouped">
+        <div className="field is-grouped buttons-section">
           <div className="control">
             <button
               type="submit"
               className="button is-primary"
               onClick={() => setFormAction("send-instructions")}
             >
-              Send Instructions
+              Move Rover
             </button>
           </div>
           <div className="control">
             <button
               type="submit"
-              className="button is-secondary"
+              className="button is-danger"
               onClick={() => setFormAction("remove-rover")}
             >
-              Remove Rover
+              Destroy Rover
             </button>
           </div>
         </div>

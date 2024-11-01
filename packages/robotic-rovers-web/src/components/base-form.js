@@ -7,13 +7,17 @@ export default function BaseForm({
   children,
 }) {
   return (
-    <>
+    <div className="base-form">
       {displayError && (
-        <div className="alert alert-warning" role="alert">
+        <div className="notification is-danger has-text-centered" role="alert">
           {errorMessage}
         </div>
       )}
-      {displayLoading ? <p>Loading...</p> : children}
-    </>
+      {displayLoading ? (
+        <p className="loading-message">Loading...</p>
+      ) : (
+        children
+      )}
+    </div>
   );
 }

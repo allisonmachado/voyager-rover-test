@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import logo from "../../public/logo.jpeg";
+import logo from "../../public/logo.svg";
 import { useState } from "react";
 
 export default function Header() {
@@ -16,13 +16,8 @@ export default function Header() {
     <header>
       <nav className="navbar" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
-          <a className="navbar-item" href="https://bulma.io">
-            <Image
-              src={logo}
-              alt="Picture of the Bulma CSS project"
-              width={112}
-              height={112}
-            />
+          <a className="navbar-item" href="/">
+            <Image src={logo} alt="Plateau" width={112} height={112} />
           </a>
 
           <a
