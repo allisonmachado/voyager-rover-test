@@ -147,10 +147,10 @@ export const create = async (args: {
   orientation: 'N' | 'E' | 'S' | 'W';
 }): Promise<RoboticRover> => {
   return mainDataSource.transaction(async (entityManager) => {
-    const roverRepository = entityManager.getRepository(RoboticRover);
-    const plateauRepository = entityManager.getRepository(Plateau);
+    const plateauRepository = entityManager.withRepository(entityManager.getRepository(Plateau));
+    const roverRepository = entityManager.withRepository(entityManager.getRepository(RoboticRover));
 
-    const parentPlateau = await entityManager.withRepository(plateauRepository).findOneByOrFail({
+    const parentPlateau = await plateauRepository.findOneByOrFail({
       id: args.plateauId,
     });
 
@@ -163,7 +163,7 @@ export const create = async (args: {
       throw new BusinessValidationError('Initial position is out of bounds');
     }
 
-    const rovers = await entityManager.withRepository(roverRepository).find({
+    const rovers = await roverRepository.find({
       where: {
         plateau: parentPlateau,
         xCurrentPosition: args.initialPosition.x,
@@ -176,7 +176,7 @@ export const create = async (args: {
       throw new BusinessValidationError('Initial position is already occupied');
     }
 
-    const newRover = entityManager.withRepository(roverRepository).create({
+    const newRover = roverRepository.create({
       xInitialPosition: args.initialPosition.x,
       yInitialPosition: args.initialPosition.y,
       xCurrentPosition: args.initialPosition.x,
@@ -185,7 +185,7 @@ export const create = async (args: {
       plateau: parentPlateau,
     });
 
-    await entityManager.withRepository(roverRepository).save(newRover);
+    await roverRepository.save(newRover);
 
     return newRover;
   });
@@ -206,10 +206,10 @@ export const move = async (args: {
   updatedRover: RoboticRover;
 }> => {
   return mainDataSource.transaction(async (entityManager) => {
-    const roverRepository = entityManager.getRepository(RoboticRover);
-    const moveInstructionRepository = entityManager.getRepository(MoveInstruction);
+    const roverRepository = entityManager.withRepository(entityManager.getRepository(RoboticRover));
+    const moveInstructionRepository = entityManager.withRepository(entityManager.getRepository(MoveInstruction));
 
-    const targetRover = await entityManager.withRepository(roverRepository).findOneOrFail({
+    const targetRover = await roverRepository.findOneOrFail({
       where: {
         id: args.roverId,
       },
@@ -226,8 +226,8 @@ export const move = async (args: {
           const move = await saveRotation({
             targetRover,
             direction: 'L',
-            roverRepository: entityManager.withRepository(roverRepository),
-            moveInstructionRepository: entityManager.withRepository(moveInstructionRepository),
+            roverRepository,
+            moveInstructionRepository,
           });
 
           appliedMoves.push(move);
@@ -237,8 +237,8 @@ export const move = async (args: {
           const move = await saveRotation({
             targetRover,
             direction: 'R',
-            roverRepository: entityManager.withRepository(roverRepository),
-            moveInstructionRepository: entityManager.withRepository(moveInstructionRepository),
+            roverRepository,
+            moveInstructionRepository,
           });
 
           appliedMoves.push(move);
@@ -247,8 +247,8 @@ export const move = async (args: {
         case 'M': {
           const move = await saveMove({
             targetRover,
-            roverRepository: entityManager.withRepository(roverRepository),
-            moveInstructionRepository: entityManager.withRepository(moveInstructionRepository),
+            roverRepository,
+            moveInstructionRepository,
           });
 
           if (!move) {

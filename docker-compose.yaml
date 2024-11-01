@@ -21,6 +21,7 @@ services:
         required: false
     volumes:
       - ./packages/robotic-rovers-api/src:/voyager/packages/robotic-rovers-api/src
+      - ./packages/robotic-rovers-api/test:/voyager/packages/robotic-rovers-api/test
     restart: unless-stopped
     depends_on:
       - robotic-rovers-database
@@ -34,6 +35,7 @@ services:
       - ./packages/robotic-rovers-web/.env
     volumes:
       - ./packages/robotic-rovers-web/src:/voyager/packages/robotic-rovers-web/src
+      - ./packages/robotic-rovers-web/test:/voyager/packages/robotic-rovers-web/test
     restart: unless-stopped
     depends_on:
       - robotic-rovers-database

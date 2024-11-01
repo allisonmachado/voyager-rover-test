@@ -37,10 +37,10 @@ export const create = async (xWidth: number, yHeight: number): Promise<Plateau> 
 
 export const remove = async (plateauId: number) => {
   return mainDataSource.transaction(async (entityManager) => {
-    const plateauRepository = entityManager.getRepository(Plateau);
-    const roverRepository = entityManager.getRepository(RoboticRover);
+    const plateauRepository = entityManager.withRepository(entityManager.getRepository(Plateau));
+    const roverRepository = entityManager.withRepository(entityManager.getRepository(RoboticRover));
 
-    const parentPlateau = await entityManager.withRepository(plateauRepository).findOneBy({
+    const parentPlateau = await plateauRepository.findOneBy({
       id: plateauId,
     });
 
@@ -48,15 +48,15 @@ export const remove = async (plateauId: number) => {
       return null;
     }
 
-    const childRovers = await entityManager.withRepository(roverRepository).findBy({
+    const childRovers = await roverRepository.findBy({
       plateau: parentPlateau,
     });
 
     if (childRovers.length > 0) {
-      await entityManager.withRepository(roverRepository).softRemove(childRovers);
+      await roverRepository.softRemove(childRovers);
     }
 
-    return entityManager.withRepository(plateauRepository).softRemove(parentPlateau);
+    return plateauRepository.softRemove(parentPlateau);
   });
 };
 
