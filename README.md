@@ -30,7 +30,7 @@ Clone the repository and run docker compose to initialize the application servic
 
 ```sh
 $ git clone git@github.com:allisonmachado/voyager-rover-test.git
-$ cd /voyager-rover-test.git
+$ cd ./voyager-rover-test
 $ docker-compose up
 ```
 

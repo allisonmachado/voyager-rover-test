@@ -33,13 +33,13 @@ export default async function PlateausList() {
                 <footer className="card-footer">
                   <Link
                     href={`/plateaus/${plateau.id}`}
-                    className="card-footer-item button is-link is-small"
+                    className="card-footer-item button is-link"
                   >
                     Manage Rovers
                   </Link>
                   <Link
                     href={`/plateaus/${plateau.id}/delete`}
-                    className="card-footer-item button is-danger is-small"
+                    className="card-footer-item button is-danger"
                   >
                     Delete Plateau
                   </Link>

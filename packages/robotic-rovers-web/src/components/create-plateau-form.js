@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useForm } from "@/hooks/use-form";
 import BaseForm from "./base-form";
+import displaySimpleAlert from "sweetalert";
 
 export default function CreatePlateauForm() {
   const [width, setWidth] = useState(0);
@@ -20,8 +21,15 @@ export default function CreatePlateauForm() {
         width,
         height,
       },
-      successPath: "/plateaus",
-      successMessage: "Plateau created successfully",
+      successPath: null,
+      successHandler: async (responseBody) => {
+        const { name } = responseBody;
+
+        await displaySimpleAlert(
+          `Plateau created successfully! It has been named '${name}.'`
+        );
+        window.location.href = "/plateaus";
+      },
     });
   };
 

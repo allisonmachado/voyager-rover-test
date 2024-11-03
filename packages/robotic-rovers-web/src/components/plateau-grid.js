@@ -1,6 +1,11 @@
 "use client";
 
-export default function PlateauGrid({ plateau, rovers, setSelectedRoverId }) {
+export default function PlateauGrid({
+  plateau,
+  rovers,
+  selectedRoverId,
+  setSelectedRoverId,
+}) {
   const orientationSymbols = {
     N: "↑",
     E: "→",
@@ -31,27 +36,34 @@ export default function PlateauGrid({ plateau, rovers, setSelectedRoverId }) {
 
           const handleClick = () => {
             if (currentRover) {
-              setSelectedRoverId(currentRover.id); // Update selected rover ID
+              setSelectedRoverId(currentRover.id);
             }
           };
+
+          const isSelected =
+            currentRover && currentRover.id === selectedRoverId;
 
           return (
             <div
               key={index}
               className="grid-cell"
-              onClick={handleClick} // Add click handler
+              onClick={handleClick}
               style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 border: "1px solid #ccc",
-                backgroundColor: currentRover ? "#f5f5f5" : "#fff",
+                backgroundColor: isSelected
+                  ? "#cccccc"
+                  : currentRover
+                  ? "#f5f5f5"
+                  : "#fff",
                 position: "relative",
                 fontSize: "14px",
                 color: currentRover ? "#333" : "#aaa",
                 padding: "4px",
                 borderRadius: "4px",
-                cursor: currentRover ? "pointer" : "default", // Change cursor if rover is present
+                cursor: currentRover ? "pointer" : "default",
               }}
               title={
                 currentRover

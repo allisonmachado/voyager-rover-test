@@ -6,6 +6,7 @@ import DeployRoverForm from "./deploy-rover-form";
 
 export default function PlateauAndRoversManagers({ plateau, rovers }) {
   const [selectedRoverId, setSelectedRoverId] = useState(rovers[0]?.id);
+  const [dynamicRovers, setDynamicRovers] = useState(rovers);
 
   return (
     <div className="container">
@@ -25,13 +26,18 @@ export default function PlateauAndRoversManagers({ plateau, rovers }) {
       <section className="grid-section">
         <PlateauGrid
           plateau={plateau}
-          rovers={rovers}
+          rovers={dynamicRovers}
           setSelectedRoverId={setSelectedRoverId}
+          selectedRoverId={selectedRoverId}
         />
       </section>
 
       <section className="form-section">
-        <RoboticRoverForm roverId={selectedRoverId} />
+        <RoboticRoverForm
+          roverId={selectedRoverId}
+          setRovers={setDynamicRovers}
+          rovers={dynamicRovers}
+        />
       </section>
 
       <section className="form-section">

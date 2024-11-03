@@ -42,7 +42,8 @@ export const moveRoboticRover: RouteOptions = {
         .required()
         .uppercase()
         .trim()
-        .regex(/^[LRM]+$/),
+        .regex(/^[LRM]+$/)
+        .max(25),
     }),
     failAction: (_request, _h, error) => {
       throw error;
@@ -64,7 +65,6 @@ export const moveRoboticRover: RouteOptions = {
         .response({
           totalInstructions,
           totalAppliedInstructions: appliedInstructions.length,
-          appliedInstructions,
           updatedRover,
         })
         .code(200);

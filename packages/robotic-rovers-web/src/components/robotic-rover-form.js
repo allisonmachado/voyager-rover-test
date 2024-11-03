@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useForm } from "@/hooks/use-form";
 import BaseForm from "./base-form";
+import displaySimpleAlert from "sweetalert";
 
-export default function RoboticRoverForm({ roverId }) {
+export default function RoboticRoverForm({ roverId, rovers, setRovers }) {
   const [instructions, setInstructions] = useState("");
   const [formAction, setFormAction] = useState();
 
@@ -13,6 +14,11 @@ export default function RoboticRoverForm({ roverId }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!roverId) {
+      displaySimpleAlert("First deploy and select a Rover");
+      return;
+    }
+
     if (formAction === "send-instructions") {
       submitForm({
         requestPath: `/api/robotic-rovers/${roverId}/move-instructions`,
@@ -20,8 +26,30 @@ export default function RoboticRoverForm({ roverId }) {
         requestBody: {
           instructions,
         },
-        successPath: window.location.href,
-        successMessage: "Rover instructions sent successfully!",
+        successPath: null,
+        successHandler: async (responseBody) => {
+          const { totalInstructions, totalAppliedInstructions, updatedRover } =
+            responseBody;
+
+          if (totalInstructions === totalAppliedInstructions) {
+            await displaySimpleAlert(
+              "All instructions were applied successfully!"
+            );
+          } else {
+            await displaySimpleAlert(
+              `Some instructions were not applied to avoid accidents:
+              Instructions Received: ${totalInstructions}
+              Instructions Applied: ${totalAppliedInstructions}
+              `
+            );
+          }
+
+          const updatedRovers = rovers.map((rover) =>
+            rover.id === updatedRover.id ? updatedRover : rover
+          );
+
+          setRovers(updatedRovers);
+        },
       });
 
       return;

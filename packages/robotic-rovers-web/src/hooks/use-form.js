@@ -37,6 +37,7 @@ export function useForm() {
     requestBody,
     successPath,
     successMessage,
+    successHandler,
   }) => {
     setLoading(true);
     setDisplayError(false);
@@ -59,12 +60,19 @@ export function useForm() {
         return (window.location.href = redirectUrl);
       }
 
-      if (response.status >= 200 && response.status < 300) {
+      if (response.status >= 200 && response.status < 300 && successPath) {
         await displaySimpleAlert(
           successMessage ?? DEFAULT_FORM_SUCCESS_MESSAGE
         );
 
         return (window.location.href = successPath);
+      }
+
+      if (response.status >= 200 && response.status < 300) {
+        await successHandler(await response.json());
+        setDisplayError(false);
+        setLoading(false);
+        return;
       }
 
       const result = await response.json();
