@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "@/hooks/use-form";
 import BaseForm from "./base-form";
 import displaySimpleAlert from "sweetalert";
@@ -8,6 +8,30 @@ import displaySimpleAlert from "sweetalert";
 export default function RoboticRoverForm({ roverId, rovers, setRovers }) {
   const [instructions, setInstructions] = useState("");
   const [formAction, setFormAction] = useState();
+  const [appliedInstructions, setAppliedInstructions] = useState([]);
+
+  useEffect(() => {
+    const [currentInstruction] = appliedInstructions;
+
+    if (currentInstruction) {
+      const timeout = setTimeout(() => {
+        const updatedRovers = rovers.map((rover) =>
+          rover.id === roverId ? {
+            id: roverId,
+            xCurrentPosition: currentInstruction.position.x,
+            yCurrentPosition: currentInstruction.position.y,
+            orientation: currentInstruction.orientation,
+          } : rover
+        );
+
+        setRovers(updatedRovers);
+        appliedInstructions.shift();
+        setAppliedInstructions([...appliedInstructions]);
+      }, 1000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [appliedInstructions]);
 
   const { submitForm, ...visualProps } = useForm();
 
@@ -28,7 +52,7 @@ export default function RoboticRoverForm({ roverId, rovers, setRovers }) {
         },
         successPath: null,
         successHandler: async (responseBody) => {
-          const { totalInstructions, totalAppliedInstructions, updatedRover } =
+          const { totalInstructions, totalAppliedInstructions, updatedRover, appliedInstructions } =
             responseBody;
 
           if (totalInstructions === totalAppliedInstructions) {
@@ -43,12 +67,7 @@ export default function RoboticRoverForm({ roverId, rovers, setRovers }) {
               `
             );
           }
-
-          const updatedRovers = rovers.map((rover) =>
-            rover.id === updatedRover.id ? updatedRover : rover
-          );
-
-          setRovers(updatedRovers);
+          setAppliedInstructions(appliedInstructions);
         },
       });
 

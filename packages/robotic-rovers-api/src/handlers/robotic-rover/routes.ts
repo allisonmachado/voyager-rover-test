@@ -65,6 +65,7 @@ export const moveRoboticRover: RouteOptions = {
         .response({
           totalInstructions,
           totalAppliedInstructions: appliedInstructions.length,
+          appliedInstructions,
           updatedRover,
         })
         .code(200);
