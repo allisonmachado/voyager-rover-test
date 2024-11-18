@@ -15,7 +15,7 @@
     "prebuild": "npm run clean:dist",
     "build": "tsc",
     "start": "node dist/src/index",
-    "start:dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "start:dev": "ts-node-dev --respawn --inspect=4321 --transpile-only src/index.ts",
     "pretest": "npm run build",
     "test": "mocha dist/test/**/*.js",
     "test:dev": "mocha --require ts-node/register 'test/**/*.ts'"
