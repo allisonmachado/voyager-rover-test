@@ -32,7 +32,7 @@ services:
       context: .
       dockerfile: Dockerfile.local.robotic-rovers-web
     ports:
-      - "3000:3000"
+      - "3002:3002"
     env_file:
       - ./packages/robotic-rovers-web/.env
     volumes:
@@ -41,4 +41,14 @@ services:
     restart: unless-stopped
     depends_on:
       - robotic-rovers-database
+      - robotic-rovers-api
+  robotic-rovers-proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile.local.robotic-rovers-proxy
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    depends_on:
+      - robotic-rovers-web
       - robotic-rovers-api
