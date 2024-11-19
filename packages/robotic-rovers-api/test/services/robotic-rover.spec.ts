@@ -192,7 +192,7 @@ describe('Robotic Rover Service', () => {
       roverRepositoryStub.findOneOrFail.resolves(fakeRover);
       roverRepositoryStub.find.resolves([]);
       roverRepositoryStub.save.resolves();
-      moveInstructionRepositoryStub.save.resolves();
+      moveInstructionRepositoryStub.insert.resolves();
 
       // prepare transaction environment
       const entityManager = {
@@ -232,6 +232,58 @@ describe('Robotic Rover Service', () => {
 
       // @ts-ignore``
       expect(result).to.equal(expectedResult);
+    });
+
+    it('should move a rover with MMM move instruction', async () => {
+      const fakeRover = {
+        id: 1,
+        xCurrentPosition: 5,
+        yCurrentPosition: 3,
+        orientation: 'S',
+        plateau: {
+          xWidth: 20,
+          yHeight: 10,
+        },
+      };
+      // stub the repositories
+      const roverRepositoryStub = sinon.createStubInstance(Repository);
+      const moveInstructionRepositoryStub = sinon.createStubInstance(Repository);
+      roverRepositoryStub.findOneOrFail.resolves(fakeRover);
+      roverRepositoryStub.find.resolves([]);
+      roverRepositoryStub.save.resolves();
+      moveInstructionRepositoryStub.insert.resolves();
+
+      // prepare transaction environment
+      const entityManager = {
+        getRepository: sinon.stub(),
+        withRepository: sinon.stub(),
+      };
+      entityManager.getRepository.returns(null);
+      entityManager.withRepository.onFirstCall().returns(roverRepositoryStub);
+      entityManager.withRepository.onSecondCall().returns(moveInstructionRepositoryStub);
+      sinon.stub(mainDataSource, 'transaction').yields(entityManager);
+
+      // prepare test data and execute the test
+      const result = await robotService.move({
+        roverId: 1,
+        instructions: ['M', 'M', 'M'],
+      });
+
+      expect(result.appliedMoves.length).to.equal(3);
+      const [firstMove, secondMove, thirdMove] = result.appliedMoves;
+
+      expect(firstMove.position).to.equal({
+        x: 5,
+        y: 2,
+      });
+      expect(secondMove.position).to.equal({
+        x: 5,
+        y: 1,
+      });
+      expect(thirdMove.position).to.equal({
+        x: 5,
+        y: 0,
+      });
     });
 
     it('should move a rover with R move instruction', async () => {
@@ -350,6 +402,82 @@ describe('Robotic Rover Service', () => {
 
       // @ts-ignore``
       expect(result).to.equal(expectedResult);
+    });
+
+    it('should move a rover with MRML move instruction', async () => {
+      const fakeRover = {
+        id: 1,
+        xCurrentPosition: 5,
+        yCurrentPosition: 3,
+        orientation: 'S',
+        plateau: {
+          xWidth: 20,
+          yHeight: 10,
+        },
+      };
+      // stub the repositories
+      const roverRepositoryStub = sinon.createStubInstance(Repository);
+      const moveInstructionRepositoryStub = sinon.createStubInstance(Repository);
+      roverRepositoryStub.findOneOrFail.resolves(fakeRover);
+      roverRepositoryStub.find.resolves([]);
+      roverRepositoryStub.save.resolves();
+      moveInstructionRepositoryStub.insert.resolves();
+
+      // prepare transaction environment
+      const entityManager = {
+        getRepository: sinon.stub(),
+        withRepository: sinon.stub(),
+      };
+      entityManager.getRepository.returns(null);
+      entityManager.withRepository.onFirstCall().returns(roverRepositoryStub);
+      entityManager.withRepository.onSecondCall().returns(moveInstructionRepositoryStub);
+      sinon.stub(mainDataSource, 'transaction').yields(entityManager);
+
+      // prepare test data and execute the test
+      const result = await robotService.move({
+        roverId: 1,
+        instructions: ['M', 'R', 'M', 'L'],
+      });
+
+      expect(result.appliedMoves.length).to.equal(4);
+
+      const [firstMove, secondMove, thirdMove, fourthMove] = result.appliedMoves;
+
+      expect(firstMove).to.equal({
+        instruction: 'M',
+        position: {
+          x: 5,
+          y: 2,
+        },
+        orientation: 'S',
+      });
+
+      expect(secondMove).to.equal({
+        instruction: 'R',
+        position: {
+          x: 5,
+          y: 2,
+        },
+        orientation: 'W',
+      });
+
+      expect(thirdMove).to.equal({
+        instruction: 'M',
+        position: {
+          x: 4,
+          y: 2,
+        },
+        orientation: 'W',
+      });
+
+      expect(fourthMove).to.equal({
+        instruction: 'L',
+        position: {
+          x: 4,
+          y: 2,
+        },
+        orientation: 'S',
+      });
     });
   });
 });
